@@ -1,20 +1,38 @@
 body { 
-    background: url("https://images.pexels.com/photos/279009/pexels-photo-279009.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260") repeat 0 0;  
+    /* background: url("https://images.pexels.com/photos/279009/pexels-photo-279009.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260") repeat 0 0;   */
+    background: url("../img/back.jpg");
+    margin: 0;
+    padding: 0;
+}
+.img-top {
+    text-align: center;
+}
+.img-21 {
+    width: 10%;
+    margin: auto;
 }
 #area {
     border-radius: 15px;
     margin-top: 15px;
     margin: auto;
-    width: 900px;
+    width: 80%;
     padding: 15px 15px 15px 15px;
     opacity: 1;
     background-color: rgba(229, 231, 236, 0.5);
+    text-align: center;
+}
+.text-area {
+    text-align: center;
 }
 .carta {
-    width: 130px;
-    height: 190px;
-    background-color: red;
+    width: 90px;
+    height: 130px;
+    background-color: whitesmoke;
     margin: 5px;
+    border-radius: 5px;
+    font-size: 27px;
+    line-height: 47px;
+    font-family: monospace;
 }
 .dealer {
     display: flex;
@@ -23,20 +41,64 @@ body {
 .player {
     display: flex;
 }
+label.suit {
+    font-size: 350%;
+}
+.qtd-cartas {
+    font-size: 45px;
+    font-family: cursive;
+}
+.btn {
+    padding: 10px 55px;
+    margin: 5px;
+    border-radius: 5px;
+    border-style: none;
+}
+.btn-parar {
+    background-color: rgb(194, 80, 80);
+}
+.btn-bater {
+    background-color: rgb(128, 224, 133);
+}
 @media (max-width: 600px) 
-{
-    .carta {
-        width: 90%;
-        height: 190px;
-        background-color: red;
+{   
+    .img-21 {
+        width: 19%;
         margin: auto;
     }
+    #area {
+        border-radius: 15px;
+        margin: 5%;
+        width: 80%;
+        padding: 15px 15px 15px 15px;
+        opacity: 1;
+        background-color: rgba(229, 231, 236, 0.5);
+        text-align: center;
+    }
+    .carta {
+        width: 41%;
+        height: 137px;
+        background-color: whitesmoke;
+        margin-top: 5px;
+    }
     .dealer {
-        display: block;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
 
     }
     .player {
-        display: block;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
     }
+    .qtd-cartas {
+        font-size: 28px;
+        font-family: cursive;
+    }
+	label.suit {
+		font-size: 200%;
+	}
 }
+
 

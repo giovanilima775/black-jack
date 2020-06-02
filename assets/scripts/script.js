@@ -2,9 +2,9 @@
 //&hearts;
 //&hearts;
 let suits = ['&hearts;', '&clubs;', '&diams;', '&spades;'];
-let values = ['Ace', 'King', 'Queen', 'Jack',
-  'Ten', 'Nine', 'Eight', 'Seven', 'Six',
-  'Five', 'Four', 'Three', 'Two', 'One'
+let values = ['Ace', 'Reis', 'Rainha', 'Valete',
+  '10', '9', '8', '7', '6',
+  '5', '4', '3', '2', '1'
 ];
 
 let textArea = document.getElementById('text-area');
@@ -112,27 +112,27 @@ function checkForEndOfGame(){
 }
 
 function getCardString(card) {
-  return card.value + " of " + card.suit;
+  return card.value + "<br> <label class='suit'>" + card.suit + "</label>";
 }
 function getCardNumericValue(card){
   switch(card.value){
     case 'Ace':
       return 1;
-    case 'Two':
+    case '2':
       return 2;
-    case 'Three':
+    case '3':
       return 3;
-    case 'Four':
+    case '4':
       return 4;
-    case 'Five':
+    case '5':
       return 5;
-    case 'Six':
+    case '6':
       return 6;
-    case 'Seven':
+    case '7':
       return 7;
-    case 'Eight':
+    case '8':
       return 8;
-    case 'Nine':
+    case '9':
       return 9;
     default:
       return 10; 
@@ -147,11 +147,26 @@ function showStatus()
   }
   
   let cartasDealertring = '';
+  let cont = 0;
   for(let i=0; i<cartasDealer.length; i++)
-  {
-    cartasDealertring += '<div class="carta">' 
+  { 
+    if(gameOver) {
+      cartasDealertring += '<div class="carta">' 
       + getCardString(cartasDealer[i]) 
       + '</div><br>';
+    } else {
+      if(cont == 0)  {
+        cartasDealertring += '<div class="carta">' 
+        + "<br> <label class='suit'> ? </label>" 
+        + '</div><br>';
+      }else {
+        cartasDealertring += '<div class="carta">' 
+        + getCardString(cartasDealer[i]) 
+        + '</div><br>';
+      }
+      cont++;
+    }
+    
   }
   let cartasJogadortring='';
   for(let i=0; i<cartasJogador.length; i++)
@@ -163,13 +178,15 @@ function showStatus()
   
   atualizarPontuacao();
   
+  
   textArea.innerHTML = '<label> Pontuação Dealer:</label><br><div class="dealer">' +
                         cartasDealertring + 
-                        '</div><br>(score: ' + pontuacaoDealer + ')<br><br>' +
+                        '</div><br>(score: ' + (gameOver?pontuacaoDealer:' ? ') + ')<br><br>' +
                         
                         '<label>Pontuação Jogador:</label><br><div class="player">' +
                         cartasJogadortring + 
-                        '</div><br>(score: ' + playerScore + ')<br><br> Qtd Cartas: '+deck.length;
+                        '</div><br>(score: ' + playerScore + ')<br><br> <label class="qtd-cartas">QTD CARTAS: '+ 
+                        deck.length + '</label><br>';
                         
   if(gameOver){
     if(playerWon)
