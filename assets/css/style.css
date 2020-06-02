@@ -1,0 +1,42 @@
+body { 
+    background: url("https://images.pexels.com/photos/279009/pexels-photo-279009.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260") repeat 0 0;  
+}
+#area {
+    border-radius: 15px;
+    margin-top: 15px;
+    margin: auto;
+    width: 900px;
+    padding: 15px 15px 15px 15px;
+    opacity: 1;
+    background-color: rgba(229, 231, 236, 0.5);
+}
+.carta {
+    width: 130px;
+    height: 190px;
+    background-color: red;
+    margin: 5px;
+}
+.dealer {
+    display: flex;
+    flex-direction: row;
+}
+.player {
+    display: flex;
+}
+@media (max-width: 600px) 
+{
+    .carta {
+        width: 90%;
+        height: 190px;
+        background-color: red;
+        margin: auto;
+    }
+    .dealer {
+        display: block;
+
+    }
+    .player {
+        display: block;
+    }
+}
+
