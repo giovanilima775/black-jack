@@ -35,11 +35,11 @@ body {
     font-family: monospace;
 }
 .dealer {
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
 }
 .player {
-    display: flex;
+    display: inline-flex;
 }
 label.suit {
     font-size: 350%;
