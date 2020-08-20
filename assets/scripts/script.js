@@ -2,45 +2,49 @@
 //&hearts;
 //&hearts;
 let suits = ['&hearts;', '&clubs;', '&diams;', '&spades;'];
+// let values = ['Ace','Reis',
+// ];
 let values = ['Ace', 'Reis', 'Rainha', 'Valete',
   '10', '9', '8', '7', '6',
-  '5', '4', '3', '2', '1'
+  '5', '4', '3', '2',
 ];
 
 let textArea = document.getElementById('text-area');
-let newGameButton = document.getElementById('new-game-button');
-let hitButton = document.getElementById('hit-button');
-let stayButton = document.getElementById('stay-button');
+let novoJogo = document.getElementById('new-game-button');
+let pedirCarta = document.getElementById('hit-button');
+let pararJogar = document.getElementById('stay-button');
 
-hitButton.style.display = 'none';
-stayButton.style.display = 'none';
+pedirCarta.style.display = 'none';
+pararJogar.style.display = 'none';
 
 let gameStart = false,
   gameOver = false,
-  playWon = false,
   cartasDealer = [],
   cartasJogador = [],
   pontuacaoDealer = 0,
   playerScore = 0,
   deck = [];
 
-newGameButton.addEventListener('click', function() {
+novoJogo.addEventListener('click', function() {
   gameStarted = true;
   gameOver = false;
   playerWon = false;
-
-  deck = createDeck();
-  shuffleDeck(deck);
+  //criar o deck
+  deck = criarDeck();
+  //embaralha o deck
+  embaralharDeck(deck);
+  //dealer e jogador começam com duas cartas
   cartasDealer = [getNextCard(), getNextCard()];
   cartasJogador = [getNextCard(), getNextCard()];
-  newGameButton.style.display = 'none';
-  hitButton.style.display = 'inline';
-  stayButton.style.display = 'inline';
-  showStatus();
-})
 
-function createDeck() {
-  let deck = []
+  novoJogo.style.display = 'none';
+  pedirCarta.style.display = 'inline';
+  pararJogar.style.display = 'inline';
+  showStatus();
+});
+
+function criarDeck() {
+  let deck = [];
   //naipe
   for (let suitIdx = 0; suitIdx < suits.length; suitIdx++) {
     //valor carta 
@@ -57,23 +61,23 @@ function createDeck() {
   return deck;
 }
 
-function shuffleDeck(deck){
+function embaralharDeck(deck){
   for(let i=0; i<deck.length; i++)
   {
-    let swapIdx = Math.trunc(Math.random() *deck.length);
-    let tmp = deck[swapIdx];
-    deck[swapIdx] = deck[i];
-    deck[i] = tmp; 
+    let index = Math.trunc(Math.random() * deck.length);
+    let tmp = deck[index];
+    deck[index] = deck[i];
+    deck[i] = tmp;
   }
 }
 
-hitButton.addEventListener('click', function(){
+pedirCarta.addEventListener('click', function(){
   cartasJogador.push(getNextCard());
   checkForEndOfGame();
   showStatus();
 });
 
-stayButton.addEventListener('click', function(){
+pararJogar.addEventListener('click', function(){
   gameOver = true;
   checkForEndOfGame();
   showStatus();
@@ -146,76 +150,83 @@ function showStatus()
     return; 
   }
   
-  let cartasDealertring = '';
+  let cartasDealerString = '';
   let cont = 0;
   for(let i=0; i<cartasDealer.length; i++)
   { 
     if(gameOver) {
-      cartasDealertring += '<div class="carta">' 
+      cartasDealerString += '<div class="carta">' 
       + getCardString(cartasDealer[i]) 
       + '</div><br>';
     } else {
       if(cont == 0)  {
-        cartasDealertring += '<div class="carta">' 
+        cartasDealerString += '<div class="carta">' 
         + "<br> <label class='suit'> ? </label>" 
         + '</div><br>';
       }else {
-        cartasDealertring += '<div class="carta">' 
+        cartasDealerString += '<div class="carta">' 
         + getCardString(cartasDealer[i]) 
         + '</div><br>';
       }
       cont++;
     }
-    
   }
-  let cartasJogadortring='';
+  let cartasJogadorString='';
   for(let i=0; i<cartasJogador.length; i++)
   {
-    cartasJogadortring += '<div class="carta">' 
+    cartasJogadorString += '<div class="carta">' 
     +getCardString(cartasJogador[i]) 
     + '</div><br>';
   }
-  
+
   atualizarPontuacao();
-  
-  
-  textArea.innerHTML = '<label> Pontuação Dealer:</label><br><div class="dealer">' +
-                        cartasDealertring + 
-                        '</div><br>(score: ' + (gameOver?pontuacaoDealer:' ? ') + ')<br><br>' +
+
+  textArea.innerHTML = '<label> Pontuação Dealer: (score: ' + (gameOver?pontuacaoDealer:' ? ') + ')</label><br><div class="dealer">' +
+                        cartasDealerString + 
+                        '</div><br><br>' +
                         
-                        '<label>Pontuação Jogador:</label><br><div class="player">' +
-                        cartasJogadortring + 
-                        '</div><br>(score: ' + playerScore + ')<br><br> <label class="qtd-cartas">QTD CARTAS: '+ 
+                        '<label>Pontuação Jogador: (score: ' + playerScore + ')</label><br><div class="player">' +
+                        cartasJogadorString + 
+                        '</div><br> <label class="qtd-cartas">QTD CARTAS: '+ 
                         deck.length + '</label><br>';
                         
   if(gameOver){
     if(playerWon)
     {
-      textArea.innerHTML += "<label>JOGADOR GANHOU!</label>";
+      textArea.innerHTML += "<label class='end-game-p'>JOGADOR GANHOU!</label>";
     }
     else{
-      textArea.innerHTML += "<label>DEALER GANHOU!</label>";
+      textArea.innerHTML += "<label class='end-game-d'>DEALER GANHOU!</label>";
     }
-    newGameButton.style.display = 'inline';
-    hitButton.style.display = 'none';
-    stayButton.style.display = 'none';
+    novoJogo.style.display = 'inline';
+    pedirCarta.style.display = 'none';
+    pararJogar.style.display = 'none';
     
   }
 }
 
-function getScore(cardArray){
+function getScore(cardArray, player){
   let score = 0;
   let hasAce = false;
   for(let i=0; i<cardArray.length; i++){
-    let card = cardArray[i];
+    console.log(cardArray[0]);
+    console.log(cardArray[-1]);
+    let card = cardArray[i];//carta na posição i
+    if((getCardNumericValue(cardArray[0]) == 10 || getCardNumericValue(cardArray[1]) == 10) && card.value == 'Ace') {
+      return 21;
+    }
+    // if(card.value == 'Ace'){
+    //   //-1
+    //   hasAce = true;
+    // }
+    //esta bugando quando o score é 11 talveZ seja por causa do AZ
+    //contar qnt carta se maior que 1 não verificar
+    // se 1 verificar se é um 10
+    // se for 10 e a proxima carta um az ele tem valor de 11
+    // if(hasAce && score){
+    //   return score+10;
+    // }
     score += getCardNumericValue(card);
-    if(card.value == 'Ace'){
-      hasAce = true;
-    }
-    
-    if(hasAce && score+10<=21){
-      return score+10;
-    }
   }
    return score; 
 }
