@@ -22,8 +22,13 @@ body {
     background-color: rgba(229, 231, 236, 0.5);
     text-align: center;
 }
-.text-area {
+#area-buttons {
+    margin-bottom: 50px;
+}
+#text-area {
     text-align: center;
+    margin-top: 14px;
+    
 }
 .carta {
     width: 90px;
@@ -54,6 +59,7 @@ label.suit {
     margin: 5px;
     border-radius: 5px;
     border-style: none;
+    width: 180px;
 }
 .btn-parar {
     background-color: rgb(194, 80, 80);
@@ -61,13 +67,17 @@ label.suit {
 .btn-bater {
     background-color: rgb(128, 224, 133);
 }
-.end-game-p {
+.end-game-p, .end-game-d  {
     color: red;
     font-size: 25px;
+    color: red;
+    font-size: 66px;
+    font-weight: 900;
 }
-.end-game-d {
-    color: red;
-    font-size: 25px;
+.who-and-score {
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 600;
 }
 @media (max-width: 600px) 
 {   

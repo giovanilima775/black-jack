@@ -2,8 +2,6 @@
 //&hearts;
 //&hearts;
 let suits = ['&hearts;', '&clubs;', '&diams;', '&spades;'];
-// let values = ['Ace','Reis',
-// ];
 let values = ['Ace', 'Reis', 'Rainha', 'Valete',
   '10', '9', '8', '7', '6',
   '5', '4', '3', '2',
@@ -86,38 +84,43 @@ pararJogar.addEventListener('click', function(){
 function checkForEndOfGame(){
   atualizarPontuacao();
   
+  //vefica se é game over para o jogador
   if(gameOver){
+          // 15 < 18
     while(pontuacaoDealer<playerScore &&
+          // e a pontuação do jogador é menor que 21 ele ainda n perdeu
           playerScore <=21 &&
+          // e pontos dealer <= 21
           pontuacaoDealer <=21){
             cartasDealer.push(getNextCard());
             atualizarPontuacao();
     }
   }
     
-    if(playerScore>21){
-      playerWon=false;
-      gameOver = true;
-    }
+  if(playerScore>21){
+    playerWon=false;
+    gameOver = true;
+  }
     
-    else if(pontuacaoDealer>21){
+  else if(pontuacaoDealer>21){
+    playerWon = true;
+    gameOver = true;
+  }
+    
+  else if(gameOver){
+    if(playerScore>pontuacaoDealer){
       playerWon = true;
-      gameOver = true;
     }
-    
-    else if(gameOver){
-      if(playerScore>pontuacaoDealer){
-        playerWon = true;
-      }
-      else{
-        playerWon = false;
-      }
+    else{
+      playerWon = false;
     }
+  }
 }
 
 function getCardString(card) {
   return card.value + "<br> <label class='suit'>" + card.suit + "</label>";
 }
+
 function getCardNumericValue(card){
   switch(card.value){
     case 'Ace':
@@ -142,6 +145,8 @@ function getCardNumericValue(card){
       return 10; 
   }
 }
+
+
 function showStatus()
 {
   if(!gameStarted)
@@ -181,11 +186,11 @@ function showStatus()
 
   atualizarPontuacao();
 
-  textArea.innerHTML = '<label> Pontuação Dealer: (score: ' + (gameOver?pontuacaoDealer:' ? ') + ')</label><br><div class="dealer">' +
+  textArea.innerHTML = '<label class="who-and-score"> Pontuação Dealer: (score: ' + (gameOver?pontuacaoDealer:' ? ') + ')</label><br><div class="dealer">' +
                         cartasDealerString + 
                         '</div><br><br>' +
-                        
-                        '<label>Pontuação Jogador: (score: ' + playerScore + ')</label><br><div class="player">' +
+
+                        '<label class="who-and-score">Pontuação Jogador: (score: ' + playerScore + ')</label><br><div class="player">' +
                         cartasJogadorString + 
                         '</div><br> <label class="qtd-cartas">QTD CARTAS: '+ 
                         deck.length + '</label><br>';
@@ -193,10 +198,10 @@ function showStatus()
   if(gameOver){
     if(playerWon)
     {
-      textArea.innerHTML += "<label class='end-game-p'>JOGADOR GANHOU!</label>";
+      textArea.innerHTML += "<marquee scrollamount='30' class='end-game-p'>PARABÉNS VOCÊ GANHOU!</marquee>";
     }
     else{
-      textArea.innerHTML += "<label class='end-game-d'>DEALER GANHOU!</label>";
+      textArea.innerHTML += "<marquee scrollamount='30' class='end-game-d'>DEALER GANHOU!</marquee>";
     }
     novoJogo.style.display = 'inline';
     pedirCarta.style.display = 'none';
@@ -205,27 +210,14 @@ function showStatus()
   }
 }
 
-function getScore(cardArray, player){
+function getScore(cardArray){
   let score = 0;
-  let hasAce = false;
   for(let i=0; i<cardArray.length; i++){
-    console.log(cardArray[0]);
-    console.log(cardArray[-1]);
-    let card = cardArray[i];//carta na posição i
+    let card = cardArray[i];
+    //verifica se o jogador já começou com um blackjack
     if((getCardNumericValue(cardArray[0]) == 10 || getCardNumericValue(cardArray[1]) == 10) && card.value == 'Ace') {
       return 21;
     }
-    // if(card.value == 'Ace'){
-    //   //-1
-    //   hasAce = true;
-    // }
-    //esta bugando quando o score é 11 talveZ seja por causa do AZ
-    //contar qnt carta se maior que 1 não verificar
-    // se 1 verificar se é um 10
-    // se for 10 e a proxima carta um az ele tem valor de 11
-    // if(hasAce && score){
-    //   return score+10;
-    // }
     score += getCardNumericValue(card);
   }
    return score; 
@@ -238,5 +230,5 @@ function atualizarPontuacao(){
 
 
 function getNextCard() {
-  return deck.shift();
+  return deck.shift();//retorna o primeiro elemento do array removendo do deck
 }
